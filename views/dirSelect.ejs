@@ -1,0 +1,156 @@
+<html>
+<head>
+<title>Select Directory</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    
+  </script>
+
+
+
+  <script>
+    $(document).ready(function() {
+        function disableBack() { window.history.forward() }
+
+        window.onload = disableBack();
+        window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+    });
+</script>
+<style>
+ body {
+    background-color: white;
+}
+#loginbox {
+    margin-top: 30px;
+}
+
+#loginbox > div:first-child {        
+    padding-bottom: 10px;    
+}
+
+#form > div {
+    margin-bottom: 25px;
+}
+
+.iconmelon {
+    display: block;
+    margin: auto;
+}
+
+#form > div:last-child {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.panel {    
+    background-color: transparent;
+}
+
+.panel-body {
+    padding-top: 30px;
+    background-color: rgba(2555,255,255,.3);
+}
+
+.iconmelon {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: block;
+  fill: #525151;
+}
+
+.iconmelon:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
+</head>
+<body>
+  <div class="text-right">
+
+  <button class="btn btn-warning float-right" id="logout">Logout</button>
+  </div>
+	<div class="container">    
+        
+
+
+    <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3"> 
+        
+        <div class="row">                
+            <div class="iconmelon">
+              <svg viewBox="0 0 32 32">
+                <g filter="">
+                  <use xlink:href="#git"></use>
+                </g>
+              </svg>
+            </div>
+        </div>
+        
+        <div class="panel panel-default" >
+            <div class="panel-heading">
+                <div class="panel-title text-center">Selct your directory</div>
+            </div>     
+
+            <div class="panel-body" >
+
+                <form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
+                   
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-folder-close"></i></span>
+                        <input id="dirName" type="text" class="form-control" name="user" value="" placeholder="Enter your directory name"> </div>
+
+                </form>     
+			<div>
+				<button class="btn btn-primary" id="btn1">Submit</button>
+			</div>
+            </div>    
+                            
+        </div>  
+    </div>
+</div>
+
+<script>
+  $("#logout").click(function(){
+    $.ajax({
+      url : "/logout",
+      type : "POST",
+      success : function(data, status){
+        
+        if(data == "logged_out"){
+          console.log(data)
+          window.location.href = "/"
+        }
+      }
+    })
+  })
+</script>
+
+
+<script type="text/javascript">
+	$("#btn1").click(function(){
+		let url = "/s_file/"+document.getElementById("dirName").value;
+		$.ajax({
+			url: url,
+			type:"GET",
+			success : function(data, status){
+				if(data == "Not found any directory..!"){
+					alert(data)
+
+				}else{
+
+          window.location.href = "/list_dir"
+        }
+			}
+		})
+	})
+
+</script>
+</body>
+</html

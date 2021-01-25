@@ -1,0 +1,137 @@
+<html>
+<head>
+<title>List Directory</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.fa a.main-nav-item:hover {
+  background-color: yellow;
+}
+
+img.sticky {
+  position: sticky;
+  top: 75;
+  width: 350px;
+  height: 300px;
+}
+
+div.sticky {
+  position: sticky;
+  top: 0;
+}
+</style>
+</head>
+
+<body onload="load_data()" >
+<div id="change"></div>
+<div class="sticky">
+<button class="btn btn-warning float-right" id="logout">Logout</button></div>
+
+<script>
+  $("#logout").click(function(){
+    $.ajax({
+      url : "/logout",
+      type : "POST",
+      success : function(data, status){
+        
+        if(data == "logged_out"){
+          console.log(data)
+          window.location.href = "/"
+        }
+      }
+    })
+  })
+</script>
+
+
+<form ref='uploadForm' 
+      id='uploadForm' 
+      action='/upload' 
+      method='post' 
+      encType="multipart/form-data">
+        <input type="file" name="sampleFile" />
+        <input type='submit' value='Upload!' id="upload" />
+    </form>
+
+    <img id="img1" height="120px" width="120px" class="sticky float-right">
+    <button id="try1" onclick="goBack()">Back Button</button>
+</body>
+
+<script type="text/javascript"> 
+      
+  	function load_data(){
+  	$.ajax({
+  	url:"/send",
+  	type: "GET",
+  	success : function(data, status){
+
+  		data.forEach(function(da){
+        if(da.location == "/home/rootpranav/"){
+          document.getElementById("upload").disabled = true
+            document.getElementById("try1").disabled = true
+        }
+    		let newlink = document.createElement('a');
+        let newSpan = document.createElement('i')
+        if(da.type=="directory"){
+  		  newlink.setAttribute('href', "/s_file/"+da.name); //https://www.peterbe.com/plog/createelement-a
+        newSpan.setAttribute("class", "fa fa-folder")
+        }else if(da.type == "files" && da.file_type == "video/mp4"){
+          newlink.setAttribute('href', "/folder_link/"+da.name); //https://www.peterbe.com/plog/createelement-a
+          newSpan.setAttribute("class", " fa fa-file-video-o")
+        }else if(da.type == "files" && da.file_type == "application/pdf"){
+          newlink.setAttribute('href', "/folder_link/"+da.name); //https://www.peterbe.com/plog/createelement-a
+          newSpan.setAttribute("class", "fa fa-file-pdf-o")
+        }else if(da.type == "files" && da.file_type == "audio/mpeg"){
+          newlink.setAttribute('href', "/folder_link/"+da.name); //https://www.peterbe.com/plog/createelement-a
+          newSpan.setAttribute("class", "fa fa-file-audio-o")
+        }else if(da.type == "files" && da.file_type == "image/jpeg"){
+          newlink.setAttribute('href', "/folder_link/"+da.name); //https://www.peterbe.com/plog/createelement-a
+          newSpan.setAttribute("class", "fa fa-file-photo-o")
+          newlink.setAttribute("id", da.name)
+          newlink.setAttribute('onMouseOver', "myFunction(this)");
+        }else{
+          newlink.setAttribute('href', "/folder_link/"+da.name); //https://www.peterbe.com/plog/createelement-a
+          newSpan.setAttribute("class", "fa fa-file")
+        }
+    		newlink.innerHTML = da.name
+        document.body.appendChild(newSpan)
+    		document.body.appendChild(newlink)
+    		document.body.appendChild(document.createElement('br'))
+
+  		})
+  	}
+  	})
+  	}
+function myFunction(ele){
+let img_tag = document.getElementById("img1")
+img_tag.setAttribute("src", "/getThum/"+ele.id)
+img_tag.setAttribute("alt", "Not found Image")
+}
+
+function goBack(){
+  $.ajax({
+     url : "/deleteDir",
+    type : "POST",
+    success : function(data, status){
+      if(data != "root"){
+        window.location.href = "/s_file/"+data
+
+      }else if(data == "root"){
+        alert("You are at root level..!")
+       
+      }
+    }
+  })
+}
+
+
+</script>
+<script type="text/javascript">
+
+</script>
+
+</html>
+

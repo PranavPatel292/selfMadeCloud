@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+ 
+  <style type="text/css">
+  body {
+    background-color: white;
+}
+
+#loginbox {
+    margin-top: 30px;
+}
+
+#loginbox > div:first-child {        
+    padding-bottom: 10px;    
+}
+
+.iconmelon {
+    display: block;
+    margin: auto;
+}
+
+#form > div {
+    margin-bottom: 25px;
+}
+
+#form > div:last-child {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.panel {    
+    background-color: transparent;
+}
+
+.panel-body {
+    padding-top: 30px;
+    background-color: rgba(2555,255,255,.3);
+}
+
+#particle {
+  background-color: #14221a;
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  z-index:0; 
+}
+
+.iconmelon,
+.im {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: block;
+  fill: #525151;
+}
+
+.iconmelon:after,
+.im:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+  </style>
+ 
+</head>
+<body>
+  <div id="particle"></div>
+ 
+<div class="container">    
+        
+    <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3"> 
+        
+        <div class="row">                
+            <div class="iconmelon">
+              <svg viewBox="0 0 32 32">
+                <g filter="">
+                  <use xlink:href="#git"></use>
+                </g>
+              </svg>
+            </div>
+        </div>
+        
+        <div class="panel panel-default" >
+            <div class="panel-heading">
+                <div class="panel-title text-center">Login to your account</div>
+            </div>     
+
+            <div class="panel-body" >
+
+                <!-- <form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST"> -->
+                   
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="email" type="text" class="form-control" name="user" value="" placeholder="Username">                                        
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+                    </div>                                                                  
+                    <br>
+                    <div>
+                       <!-- <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> -->
+                    </div>
+                    <div class="form-group">
+                        <!-- Button -->
+                        <div class="col-sm-12 controls">
+                            <button type="submit" id="submit" href="#" class="btn btn-primary pull-left"><i class="glyphicon glyphicon-log-in"></i> Log in</button>         
+
+                            <button class="btn btn-primary pull-right" id="nextPC">Go to other PC</button>
+
+                        </div>
+                    </div>
+
+               <!--  </form>   -->   
+
+            </div>    
+             <script>
+        $(document).ready(function(){
+            var email, password;
+            $("#submit").click(function(){
+                email = $("#email").val();
+                password = $("#password").val();
+                // Basic jQuery RESTFul API call
+                $.post("/login", {
+                    email: email,
+                    pass: password
+                }, function(data) {
+                    console.log(data)
+                    // check the returned data, will return 'done' when completed     
+                    if(data =='data') {
+                        // redirect to admin page
+                        window.location.href="/dirFind";
+                    }else if(data == "wrong"){
+                        alert("Wrong login criteria")
+                        window.location.href = "/"
+                    }
+                });
+            });
+        });
+        </script>        
+        <script type="text/javascript">
+          $("#nextPC").click(function(){
+            let url = prompt("Plese enter your URL", "http://pranavserver.hopto.org:7475")
+            if(url != null){
+              window.location.href = url
+            }else{
+              window.location.href = "/"
+            }
+          })
+        </script>         
+        </div>  
+    </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script type="text/javascript">
+  var options = {"particles":{"number":{"value":70,"density":{"enable":true,"value_area":552.4033491425909}},"color":{"value":"#ffffff"},"shape":{"type":"polygon","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":6},"image":{"src":"img/github.svg","width":70,"height":100}},"opacity":{"value":1,"random":true,"anim":{"enable":false,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":2,"random":true,"anim":{"enable":false,"speed":3,"size_min":0.1,"sync":false}},"line_linked":{"enable":true,"distance":192,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":3,"direction":"none","random":true,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":1200}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"grab"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":400,"size":40,"duration":2,"opacity":8,"speed":3},"repulse":{"distance":300,"duration":0.4},"push":{"particles_nb":10},"remove":{"particles_nb":2}}},"retina_detect":false};
+
+
+particlesJS("particle", options);
+</script>
+<!--<script type="text/javascript">
+function check(form)
+{
+ /*if(form.userid.value == "myuserid" && form.pswrd.value == "mypswrd")
+  {
+    if( confirm("Proceed?") )
+           // window.location.href="file:///C:/Users/HP/Desktop/particle/b.html";
+
+    window.open('file:///C:/Users/HP/Desktop/particle/b.html')/*opens the target page while Id & password matches*/
+  //location.href="file:///C:/Users/HP/Desktop/particle/b.html"
+  $.ajax({
+            contentType:"application/json; charset=utf-8",
+            type:"POST",
+            url:"http://localhost:2525/login",
+            //dataType:'json',
+           // data: JSON.stringify(data),
+            success:function(data) {
+            alert(data)
+            },
+            error: function(err) {
+              alert(err.statusText);
+            }
+        });   
+}
+</script>-->
+
+ 
+</body>
+</html>
