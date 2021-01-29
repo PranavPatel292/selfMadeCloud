@@ -1,3 +1,5 @@
+## In order to run this project you must go through the following process.
+
 #### First things first, download or clone the repo, to your local machine and before doing this let me give you the prerequisites for this project.
               1)	NodeJS
               2)	MongoDB
